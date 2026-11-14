@@ -246,19 +246,26 @@
   /* ==========================================================
      Fotos: utilidades compartidas
      ========================================================== */
-  const fotosCargadas = new Set();
-
-  function imagenConRespaldo(foto, i, marco, textoRespaldo) {
+  // Pone una foto dentro de "marco". Si no carga, deja un recuadro bonito.
+  // "enfoque" (por ejemplo "50% 30%") decide qué parte se ve al recortarla.
+  // "zoom" (por ejemplo 1.5) acerca la foto hacia el punto de "enfoque".
+  function ponerFoto(marco, archivo, { alt = "", enfoque, zoom, respaldo, alCargar } = {}) {
     const img = new Image();
-    img.alt = foto.texto || "Nuestra foto " + (i + 1);
+    img.alt = alt;
     img.decoding = "async";
-    img.addEventListener("load", () => fotosCargadas.add(i));
+    img.loading = "lazy";
+    if (enfoque) img.style.objectPosition = enfoque;
+    if (zoom && zoom !== 1) {
+      img.style.transform = `scale(${zoom})`;
+      img.style.transformOrigin = enfoque || "50% 50%";
+    }
+    img.addEventListener("load", () => { if (alCargar) alCargar(img); });
     img.addEventListener("error", () => {
       img.remove();
       marco.classList.add("sin-foto");
-      if (textoRespaldo) marco.appendChild(crear("span", "", textoRespaldo));
+      if (respaldo) marco.appendChild(crear("span", "", respaldo));
     });
-    img.src = foto.archivo;
+    img.src = archivo;
     marco.appendChild(img);
     return img;
   }
@@ -269,11 +276,11 @@
   (() => {
     const tira = $("#tira");
     const EMOJIS = ["💝", "🌷", "✨"];
+    const fotos = C.tira || [];
     for (let i = 0; i < 3; i++) {
       const cuadro = crear("div", "tira-cuadro");
       cuadro.dataset.emoji = EMOJIS[i];
-      const foto = C.fotos[i];
-      if (foto) imagenConRespaldo(foto, i, cuadro);
+      if (fotos[i]) ponerFoto(cuadro, fotos[i].archivo, { enfoque: fotos[i].enfoque });
       else cuadro.classList.add("sin-foto");
       tira.appendChild(cuadro);
     }
@@ -337,7 +344,7 @@
     const audio = new Audio();
     audio.loop = true;
     audio.preload = "auto";
-    let actual = -1, deseada = 0, encendida = false, rampa = null, pausadaPorOculta = false, avisoReloj = 0;
+    let actual = -1, deseada = 0, encendida = false, rampa = null, pausadaPorOculta = false, pausadaPorVideo = false, avisoReloj = 0;
 
     function avisar(texto) {
       aviso.textContent = "♪ " + texto;
@@ -454,11 +461,23 @@
         audio.pause();
       } else if (!document.hidden && pausadaPorOculta) {
         pausadaPorOculta = false;
-        if (encendida) audio.play().catch(() => {});
+        if (encendida && !pausadaPorVideo) audio.play().catch(() => {});
       }
     });
 
     return {
+      // Mientras ella ve un video con sonido, la música se calla un ratico.
+      pausarParaVideo() {
+        if (audio.paused || pausadaPorVideo) return;
+        pausadaPorVideo = true;
+        volumenHacia(0, 300, () => audio.pause());
+      },
+      reanudarTrasVideo() {
+        if (!pausadaPorVideo) return;
+        pausadaPorVideo = false;
+        if (!encendida) return;
+        audio.play().then(() => volumenHacia(VOLUMEN, 900)).catch(() => {});
+      },
       iniciar() {
         encendida = true;
         const i = mejorPista(deseada);
@@ -474,6 +493,107 @@
         volumenHacia(0, 700, () => reproducir(destino));
       },
     };
+  })();
+
+  /* ==========================================================
+     Visor: fotos y videos en grande (sirve para todas las secciones)
+     Cada elemento: { archivo, texto, tipo: "foto" | "video", poster, sonido }
+     ========================================================== */
+  const visor = (() => {
+    const caja = $("#visor");
+    const figura = caja.querySelector("figure");
+    const img = $("#visorImg");
+    const texto = $("#visorTexto");
+    const ant = $("#visorAnt");
+    const sig = $("#visorSig");
+    let lista = [], actual = 0, video = null, origen = null;
+
+    function quitarVideo() {
+      if (!video) return;
+      video.pause();
+      video.remove();
+      video = null;
+      musica.reanudarTrasVideo();
+    }
+
+    function mostrar(i) {
+      quitarVideo();
+      actual = i;
+      const item = lista[i];
+      texto.textContent = item.texto || "";
+      if (item.tipo === "video") {
+        img.hidden = true;
+        video = document.createElement("video");
+        video.className = "visor-video";
+        video.controls = true;
+        video.playsInline = true;
+        video.setAttribute("playsinline", "");
+        video.loop = true;
+        if (item.poster) video.poster = item.poster;
+        video.src = item.archivo;
+        figura.insertBefore(video, texto);
+        if (item.sonido !== false) musica.pausarParaVideo();
+        else video.muted = true;
+        video.play().catch(() => {});
+      } else {
+        img.hidden = false;
+        img.style.animation = "none";
+        void img.offsetWidth;
+        img.style.animation = "";
+        img.src = item.archivo;
+        img.alt = item.texto || "";
+      }
+      ant.hidden = sig.hidden = lista.length < 2;
+    }
+
+    function abrir(nuevaLista, i = 0) {
+      if (!nuevaLista.length) return;
+      lista = nuevaLista;
+      origen = document.activeElement;
+      mostrar(i);
+      caja.hidden = false;
+      document.body.style.overflow = "hidden";
+      $("#visorCerrar").focus({ preventScroll: true });
+    }
+    function cerrar() {
+      quitarVideo();
+      caja.hidden = true;
+      document.body.style.overflow = "";
+      if (origen && origen.focus) origen.focus({ preventScroll: true });
+    }
+    // Mantiene el foco del teclado dentro del visor mientras está abierto
+    caja.addEventListener("keydown", (e) => {
+      if (e.key !== "Tab") return;
+      const enfocables = [...caja.querySelectorAll("button:not([hidden]), video")];
+      const primero = enfocables[0], ultimo = enfocables[enfocables.length - 1];
+      if (e.shiftKey && document.activeElement === primero) { e.preventDefault(); ultimo.focus(); }
+      else if (!e.shiftKey && document.activeElement === ultimo) { e.preventDefault(); primero.focus(); }
+    });
+    function mover(paso) {
+      if (lista.length < 2) return;
+      mostrar((actual + paso + lista.length) % lista.length);
+    }
+
+    $("#visorCerrar").addEventListener("click", cerrar);
+    ant.addEventListener("click", () => mover(-1));
+    sig.addEventListener("click", () => mover(1));
+    caja.addEventListener("click", (e) => { if (e.target === caja) cerrar(); });
+    document.addEventListener("keydown", (e) => {
+      if (caja.hidden) return;
+      if (e.key === "Escape") cerrar();
+      if (e.key === "ArrowLeft") mover(-1);
+      if (e.key === "ArrowRight") mover(1);
+    });
+    let toqueX = null;
+    caja.addEventListener("touchstart", (e) => { toqueX = e.touches[0].clientX; }, { passive: true });
+    caja.addEventListener("touchend", (e) => {
+      if (toqueX == null) return;
+      const dx = e.changedTouches[0].clientX - toqueX;
+      toqueX = null;
+      if (Math.abs(dx) > 60) mover(dx < 0 ? 1 : -1);
+    });
+
+    return { abrir };
   })();
 
   /* ==========================================================
@@ -562,11 +682,34 @@
      ========================================================== */
   (() => {
     const lista = $("#hitos");
+    const conFoto = C.historia.filter((h) => h.foto);
+    const galeria = conFoto.map((h) => ({ archivo: h.foto, texto: h.pie || h.titulo }));
+
     C.historia.forEach((h) => {
       const li = crear("li", "hito revelar");
       const icono = crear("span", "hito-icono", h.icono);
       icono.setAttribute("aria-hidden", "true");
       const tarjeta = crear("div", "hito-tarjeta");
+
+      if (h.foto) {
+        const n = conFoto.indexOf(h);
+        const boton = crear("button", "hito-foto");
+        boton.type = "button";
+        boton.setAttribute("aria-label", "Ver en grande: " + (h.pie || h.titulo));
+        const marco = crear("span", "hito-foto-marco");
+        ponerFoto(marco, h.foto, {
+          alt: h.pie || h.titulo,
+          enfoque: h.enfoque,
+          zoom: h.zoom,
+          respaldo: "📷",
+          alCargar: (img) => { if (img.naturalHeight > img.naturalWidth) boton.classList.add("vertical"); },
+        });
+        boton.appendChild(marco);
+        if (h.pie) boton.appendChild(crear("span", "hito-foto-pie", h.pie));
+        boton.addEventListener("click", () => visor.abrir(galeria, n));
+        tarjeta.appendChild(boton);
+      }
+
       tarjeta.append(
         crear("p", "hito-fecha", h.fecha),
         crear("h3", "hito-titulo", h.titulo),
@@ -578,94 +721,125 @@
   })();
 
   /* ==========================================================
-     Fotos: collage en blanco y negro + visor a color
+     Fotos: collage cálido (estilo "your story" beige)
      ========================================================== */
   (() => {
     const collage = $("#collage");
     const extra = $("#collageExtra");
-    const visor = $("#visor");
-    const visorImg = $("#visorImg");
-    const visorTexto = $("#visorTexto");
     const CORAZON = '<svg viewBox="0 0 64 58" aria-hidden="true"><path d="M32 55 C 12 41, 3 30, 3 18 C 3 9, 10 3, 18 3 C 24 3, 29 7, 32 12 C 35 7, 40 3, 46 3 C 54 3, 61 9, 61 18 C 61 30, 52 41, 32 55Z"/></svg>';
-    let enVisor = 0;
+    const galeria = C.fotos.map((f) => ({ archivo: f.archivo, texto: f.texto }));
 
-    // Bloque de texto a máquina con el corazón
+    // Fondo: la primera foto, muy difuminada y lavada en tono arena
+    if (C.fotos[0]) $("#collageFondo").style.backgroundImage = `url("${C.fotos[0].archivo}")`;
+
+    // Bloque de texto a máquina
     const texto = crear("div", "collage-texto revelar");
-    texto.innerHTML = CORAZON;
     texto.appendChild(crear("p", "", C.fraseFotos || ""));
     collage.appendChild(texto);
 
-    // Muestras de grises, como en la plantilla
-    [["m1", 3], ["m2", 3]].forEach(([clase, n]) => {
-      const caja = crear("div", "muestras revelar " + clase);
-      caja.setAttribute("aria-hidden", "true");
-      for (let k = 0; k < n; k++) caja.appendChild(crear("i"));
-      collage.appendChild(caja);
-    });
-
     C.fotos.forEach((foto, i) => {
-      const enCollage = i < 6;
-      const figura = crear("figure", "foto-bn revelar" + (enCollage ? " f" + (i + 1) : ""));
-      figura.style.setProperty("--espera", ((i % 3) * 0.1).toFixed(2) + "s");
-      const marco = crear("div", "marco-bn");
-      imagenConRespaldo(foto, i, marco, "foto " + (i + 1));
+      const enCollage = i < 5;
+      const figura = crear("figure", "foto-collage revelar" + (enCollage ? " f" + (i + 1) : ""));
+      figura.style.setProperty("--espera", ((i % 2) * 0.12).toFixed(2) + "s");
+      figura.tabIndex = 0;
+      figura.setAttribute("role", "button");
+      figura.setAttribute("aria-label", "Ver en grande: " + (foto.texto || "foto " + (i + 1)));
+      const marco = crear("div", "marco-collage");
+      ponerFoto(marco, foto.archivo, { alt: foto.texto || "", enfoque: foto.enfoque, zoom: foto.zoom, respaldo: "foto " + (i + 1) });
       figura.appendChild(marco);
-      if (i === 5) figura.appendChild(crear("span", "te-amo", C.teAmo || "te amo"));
-      figura.addEventListener("click", () => abrir(i));
+      if (i === 3) figura.appendChild(crear("span", "te-amo", C.teAmo || "te amo"));
+      const abrir = () => visor.abrir(galeria, i);
+      figura.addEventListener("click", abrir);
+      figura.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); abrir(); } });
       (enCollage ? collage : extra).appendChild(figura);
     });
 
-    if (C.notaFotos) {
-      const nota = crear("p", "collage-nota revelar");
-      nota.innerText = C.notaFotos;
-      collage.appendChild(nota);
-    }
-
-    function mostrar(i) {
-      enVisor = i;
-      visorImg.style.animation = "none";
-      void visorImg.offsetWidth;
-      visorImg.style.animation = "";
-      visorImg.src = C.fotos[i].archivo;
-      visorImg.alt = C.fotos[i].texto || "";
-      visorTexto.textContent = C.fotos[i].texto || "";
-    }
-    function abrir(i) {
-      if (!fotosCargadas.has(i)) return;
-      mostrar(i);
-      visor.hidden = false;
-      document.body.style.overflow = "hidden";
-    }
-    function cerrar() {
-      visor.hidden = true;
-      document.body.style.overflow = "";
-    }
-    function mover(paso) {
-      if (!fotosCargadas.size) return;
-      let i = enVisor;
-      do { i = (i + paso + C.fotos.length) % C.fotos.length; } while (!fotosCargadas.has(i));
-      mostrar(i);
-    }
-
-    $("#visorCerrar").addEventListener("click", cerrar);
-    $("#visorAnt").addEventListener("click", () => mover(-1));
-    $("#visorSig").addEventListener("click", () => mover(1));
-    visor.addEventListener("click", (e) => { if (e.target === visor) cerrar(); });
-    document.addEventListener("keydown", (e) => {
-      if (visor.hidden) return;
-      if (e.key === "Escape") cerrar();
-      if (e.key === "ArrowLeft") mover(-1);
-      if (e.key === "ArrowRight") mover(1);
-    });
-    let toqueX = null;
-    visor.addEventListener("touchstart", (e) => { toqueX = e.touches[0].clientX; }, { passive: true });
-    visor.addEventListener("touchend", (e) => {
-      if (toqueX == null) return;
-      const dx = e.changedTouches[0].clientX - toqueX;
-      toqueX = null;
-      if (Math.abs(dx) > 45) mover(dx < 0 ? 1 : -1);
-    });
+    const pie = crear("div", "collage-pie revelar");
+    if (C.notaFotos) pie.appendChild(crear("p", "", C.notaFotos));
+    const corazon = crear("span", "collage-corazon");
+    corazon.innerHTML = CORAZON;
+    pie.appendChild(corazon);
+    collage.appendChild(pie);
   })();
+
+  /* ==========================================================
+     Videos: se reproducen en silencio al verlos; tocarlos los abre con sonido
+     ========================================================== */
+  (() => {
+    const caja = $("#listaVideos");
+    const lista = C.videos || [];
+    if (!lista.length) { $("#videos").hidden = true; return; }
+    const galeria = lista.map((v) => ({ ...v, tipo: "video" }));
+    const marcos = [];
+
+    lista.forEach((v, i) => {
+      const figura = crear("figure", "video-marco revelar " + (i < 3 ? "v" + (i + 1) : "v-extra"));
+      figura.style.setProperty("--espera", ((i % 2) * 0.12).toFixed(2) + "s");
+      const pantalla = crear("button", "video-pantalla");
+      pantalla.type = "button";
+      pantalla.setAttribute("aria-label", "Ver video: " + (v.texto || "video " + (i + 1)));
+      const video = document.createElement("video");
+      video.muted = true;
+      video.defaultMuted = true;
+      video.setAttribute("muted", "");
+      video.loop = true;
+      video.playsInline = true;
+      video.setAttribute("playsinline", "");
+      video.preload = "none";
+      if (v.poster) video.poster = v.poster;
+      video.src = v.archivo;
+      video.setAttribute("aria-hidden", "true");
+      video.tabIndex = -1;
+      const rec = crear("span", "rec", "REC");
+      const play = crear("span", "play");
+      play.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg>';
+      pantalla.append(video, rec, play);
+      pantalla.addEventListener("click", () => visor.abrir(galeria, i));
+      figura.append(pantalla, crear("figcaption", "", v.texto || ""));
+      caja.appendChild(figura);
+      marcos.push({ figura, video });
+    });
+
+    if (C.notaVideos && lista.length >= 3) {
+      const nota = crear("p", "nota-videos revelar", C.notaVideos);
+      caja.insertBefore(nota, marcos[2].figura);
+    }
+
+    // Solo se mueven los que están en pantalla (ahorra batería y datos)
+    if (calmado) return;
+    const vigia = new IntersectionObserver((entradas) => {
+      entradas.forEach((e) => {
+        const v = e.target.querySelector("video");
+        if (e.isIntersecting) { v.play().catch(() => {}); }
+        else v.pause();
+      });
+    }, { threshold: 0.35 });
+    marcos.forEach((m) => vigia.observe(m.figura));
+  })();
+
+  /* ==========================================================
+     Dedicatoria: foto recortada estilo vintage
+     ========================================================== */
+  (() => {
+    const d = C.dedicatoria;
+    if (!d) { $("#dedicatoria").hidden = true; return; }
+    $("#dedicatoriaTexto").textContent = d.texto || "";
+    $("#dedicatoriaTitulo").textContent = d.titulo || "";
+    const boton = $("#recorte");
+    const img = $("#recorteImg");
+    img.decoding = "async";
+    img.addEventListener("error", () => {
+      // Sin recorte: usamos la foto normal con marco
+      if (d.foto && !img.dataset.respaldo) {
+        img.dataset.respaldo = "1";
+        boton.classList.add("sin-recorte");
+        img.src = d.foto;
+      }
+    });
+    img.src = d.recorte || d.foto;
+    boton.addEventListener("click", () => visor.abrir([{ archivo: d.foto || d.recorte, texto: d.titulo }], 0));
+  })();
+
 
   /* ==========================================================
      Constelación en forma de corazón (dibujada en el cuaderno)
@@ -675,7 +849,11 @@
     const lineas = $("#constelacionLineas");
     const corazon = $("#constelacionCorazon");
     const tarjeta = $("#razon");
+    const fotoRazon = $("#razonFoto");
+    const fotoRazonImg = $("#razonFotoImg");
     const total = C.razones.length;
+    // Precarga las fotos de las razones para que aparezcan al instante
+    C.razones.forEach((r) => { if (r.foto) { const p = new Image(); p.src = r.foto; } });
     const SVG = "http://www.w3.org/2000/svg";
     const ESTRELLA = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2 L14.7 8.7 L21.7 9.3 L16.4 13.9 L18 20.8 L12 17.1 L6 20.8 L7.6 13.9 L2.3 9.3 L9.3 8.7 Z"/></svg>';
 
@@ -732,6 +910,16 @@
       $("#razonNum").textContent = vistas.size + " / " + total;
       $("#razonTitulo").textContent = C.razones[i].titulo;
       $("#razonTexto").textContent = C.razones[i].texto;
+      const razon = C.razones[i];
+      if (razon.foto) {
+        fotoRazonImg.src = razon.foto;
+        fotoRazonImg.alt = razon.titulo;
+        fotoRazonImg.style.objectPosition = razon.enfoque || "";
+        fotoRazon.hidden = false;
+        fotoRazon.onclick = () => visor.abrir([{ archivo: razon.foto, texto: razon.titulo }], 0);
+      } else {
+        fotoRazon.hidden = true;
+      }
       tarjeta.classList.remove("cambia");
       void tarjeta.offsetWidth;
       tarjeta.classList.add("cambia");
@@ -800,8 +988,22 @@
     const EMOJIS = ["💝", "🌷", "✨", "❤️", "🌷", "💝"];
     let sembrados = 0;
 
+    // También se puede sembrar con el teclado (Enter o espacio)
+    jardin.tabIndex = 0;
+    jardin.setAttribute("aria-label", "Jardín: toca o presiona Enter para sembrar un tulipán");
+    jardin.addEventListener("keydown", (e) => {
+      if (e.target !== jardin || (e.key !== "Enter" && e.key !== " ")) return;
+      e.preventDefault();
+      const caja = jardin.getBoundingClientRect();
+      sembrar({ clientX: caja.left + caja.width * azar(0.1, 0.9), clientY: caja.top + caja.height * azar(0.55, 0.75) });
+    });
+
     jardin.addEventListener("click", (e) => {
       if (e.target.closest("a, button")) return;
+      sembrar(e);
+    });
+
+    function sembrar(e) {
       const caja = jardin.getBoundingClientRect();
       const x = limitar(((e.clientX - caja.left) / caja.width) * 100, 6, 94);
 
@@ -832,7 +1034,7 @@
           ambiente.lluvia(70, 5000);
         }, 700);
       }
-    });
+    }
   })();
 
   /* ==========================================================

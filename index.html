@@ -125,14 +125,47 @@
       </div>
     </section>
 
-    <!-- ===================== FOTOS (collage en blanco y negro) ===================== -->
+    <!-- ===================== FOTOS (collage cálido) ===================== -->
     <section class="banda-fotos" id="fotos">
+      <div class="collage-fondo" id="collageFondo" aria-hidden="true"></div>
       <div class="banda-interior">
         <p class="etiqueta revelar">nuestros momentos</p>
         <h2 class="titulo revelar">Mis fotos <em>favoritas</em> contigo</h2>
-        <p class="bajada revelar">Toca una foto para verla en grande… y a color 🤍</p>
+        <p class="bajada revelar">Toca una foto para verla en grande 🤍</p>
         <div class="collage" id="collage"></div>
         <div class="collage-extra" id="collageExtra"></div>
+      </div>
+    </section>
+
+    <!-- ===================== VIDEOS ===================== -->
+    <section class="seccion" id="videos">
+      <p class="etiqueta revelar">en movimiento</p>
+      <h2 class="titulo revelar">Nuestros <em>videos</em></h2>
+      <p class="bajada revelar">Toca uno para verlo en grande y con sonido 🔊</p>
+      <div class="videos" id="listaVideos"></div>
+    </section>
+
+    <!-- ===================== DEDICATORIA ===================== -->
+    <section class="dedicatoria" id="dedicatoria">
+      <div class="dedicatoria-interior">
+        <span class="guirnalda guirnalda-arriba revelar" aria-hidden="true"></span>
+        <p class="dedicatoria-texto revelar" id="dedicatoriaTexto"></p>
+        <h2 class="dedicatoria-titulo revelar" id="dedicatoriaTitulo"></h2>
+        <div class="dedicatoria-escena revelar">
+          <span class="guirnalda guirnalda-izq" aria-hidden="true"></span>
+          <span class="guirnalda guirnalda-der" aria-hidden="true"></span>
+          <svg class="corazon-garabato cg1" viewBox="0 0 64 58" aria-hidden="true">
+            <path class="relleno" d="M32 55 C 12 41, 3 30, 3 18 C 3 9, 10 3, 18 3 C 24 3, 29 7, 32 12 C 35 7, 40 3, 46 3 C 54 3, 61 9, 61 18 C 61 30, 52 41, 32 55Z" />
+            <path class="trazo" d="M31 52 C 13 40, 5 29, 6 18 C 6 10, 12 5, 19 6 C 25 6, 29 10, 32 15 C 35 9, 40 5, 47 6 C 55 7, 59 12, 58 19 C 57 30, 49 40, 33 53" />
+          </svg>
+          <svg class="corazon-garabato cg2" viewBox="0 0 64 58" aria-hidden="true">
+            <path class="relleno" d="M32 55 C 12 41, 3 30, 3 18 C 3 9, 10 3, 18 3 C 24 3, 29 7, 32 12 C 35 7, 40 3, 46 3 C 54 3, 61 9, 61 18 C 61 30, 52 41, 32 55Z" />
+            <path class="trazo" d="M31 52 C 13 40, 5 29, 6 18 C 6 10, 12 5, 19 6 C 25 6, 29 10, 32 15 C 35 9, 40 5, 47 6 C 55 7, 59 12, 58 19 C 57 30, 49 40, 33 53" />
+          </svg>
+          <button class="recorte" id="recorte" type="button" aria-label="Ver nuestra foto en grande">
+            <img id="recorteImg" alt="Nosotros dos">
+          </button>
+        </div>
       </div>
     </section>
 
@@ -151,6 +184,9 @@
 
       <div class="razon revelar" id="razon" aria-live="polite">
         <p class="razon-num" id="razonNum">0 / 8</p>
+        <button class="razon-foto" id="razonFoto" type="button" hidden aria-label="Ver la foto en grande">
+          <img id="razonFotoImg" alt="">
+        </button>
         <h3 class="razon-titulo" id="razonTitulo">¿Lista?</h3>
         <p class="razon-texto" id="razonTexto">Toca una estrella para empezar.</p>
       </div>

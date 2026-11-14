@@ -11,7 +11,18 @@ window.CONTENIDO = {
 
   apodos: ["mi flaquita 🌷", "mi amor 💝", "mi princesa 👑", "mi vida ✨"],
 
+  // ---------- Tira tipo fotomatón del inicio (3 fotos) ----------
+  // "enfoque" mueve el recorte de la foto: "50% 30%" = centrada, un poco arriba.
+  // "zoom" (opcional, por ejemplo 1.5) acerca la foto hacia ese punto.
+  tira: [
+    { archivo: "fotos/01-la-foto-con-la-que-empezo-todo.jpeg", enfoque: "50% 35%" },
+    { archivo: "fotos/02-la-segunda-foto-de-nosotros.jpeg", enfoque: "50% 32%" },
+    { archivo: "fotos/carro.jpeg", enfoque: "50% 40%" },
+  ],
+  tiraPie: "tú & yo",
+
   // ---------- Nuestra historia ----------
+  // "foto" es opcional: si la pones, sale pegada en la tarjeta.
   historia: [
     {
       icono: "🪩",
@@ -19,6 +30,9 @@ window.CONTENIDO = {
       titulo: "Una fiesta de 15",
       texto:
         "Fui a una fiesta de 15 y el que salió con regalo fui yo: esa noche te conocí. Y ni siquiera era mi cumpleaños.",
+      foto: "fotos/01-la-foto-con-la-que-empezo-todo.jpeg",
+      pie: "La foto con la que empezó todo",
+      enfoque: "50% 35%",
     },
     {
       icono: "💝",
@@ -26,6 +40,9 @@ window.CONTENIDO = {
       titulo: "Oficialmente novios",
       texto:
         "El día que dejaste de ser «la niña que me encanta» para ser mi novia. La mejor decisión que hemos tomado los dos.",
+      foto: "fotos/02-la-segunda-foto-de-nosotros.jpeg",
+      pie: "Nuestra segunda foto 🐶",
+      enfoque: "50% 30%",
     },
     {
       icono: "🏫",
@@ -33,6 +50,10 @@ window.CONTENIDO = {
       titulo: "Nuestra época más linda",
       texto:
         "Los descansos juntos, las izadas de bandera que solo aguantaba porque estabas a mi lado, y salir juntos al final del día. Todo el colegio era más bonito contigo.",
+      foto: "fotos/colegio.jpeg",
+      pie: "La más linda del colegio",
+      enfoque: "50% 62%",
+      zoom: 1.75,
     },
     {
       icono: "🎓",
@@ -54,6 +75,10 @@ window.CONTENIDO = {
       titulo: "Cine: Spider-Man: Brand New Day",
       texto:
         "Tú, yo, crispetas y el Hombre Araña. Aunque, siendo sincero, lo más lindo de la sala no estaba en la pantalla.",
+      foto: "fotos/cine-spiderman.jpeg",
+      pie: "Lo más lindo no estaba en la pantalla",
+      enfoque: "50% 15%",
+      zoom: 1.18,
     },
     {
       icono: "🌴",
@@ -61,34 +86,52 @@ window.CONTENIDO = {
       titulo: "Girardot",
       texto:
         "Nuestro viaje: comer juntos, bailar juntos y ver un matrimonio por primera vez, los dos. Fue hermoso… y me dejó pensando cosas.",
+      foto: "fotos/piscina.jpeg",
+      pie: "Girardot, 2026 ☀️",
+      enfoque: "50% 35%",
     },
   ],
 
-  // ---------- Fotos ----------
-  // Guarda las fotos en la carpeta "fotos" y escribe aquí el nombre
-  // del archivo y la frase que sale cuando ella la abre en grande.
-  //  · Las 3 primeras salen también en la tira tipo fotomatón del inicio.
-  //  · Las 6 primeras arman el collage en blanco y negro (la 6.ª lleva el "te amo").
-  //  · Si agregas más, aparecen debajo del collage.
-  // Ojo: en internet los nombres distinguen mayúsculas ("01.JPG" no es "01.jpg").
-  tiraPie: "tú & yo",
-  fraseFotos: "Eres el amor de mi vida, mi compañera de aventuras y mi mejor amiga.",
-  notaFotos: "15.11.2026\nfeliz cumple,\nmi amor",
+  // ---------- Collage de fotos ----------
+  // Las 5 primeras arman el collage (la 4.ª lleva el "te amo").
+  // Si agregas más, aparecen debajo. "texto" sale cuando ella la abre en grande.
+  // Ojo: en internet los nombres distinguen mayúsculas ("Foto.JPG" no es "foto.jpg").
+  fraseFotos: "Cada día a tu lado es una aventura llena de risas, amor y momentos que no quiero olvidar.",
+  notaFotos: "15.11.2026 · feliz cumple, mi amor",
   teAmo: "te amo",
   fotos: [
-    { archivo: "fotos/01.jpg", texto: "Tú y yo 💝" },
-    { archivo: "fotos/02.jpg", texto: "Mi lugar favorito: a tu lado" },
-    { archivo: "fotos/03.jpg", texto: "Esa sonrisa 🌷" },
-    { archivo: "fotos/04.jpg", texto: "Girardot, 2026" },
-    { archivo: "fotos/05.jpg", texto: "Siempre nosotros" },
-    { archivo: "fotos/06.jpg", texto: "Mi princesa" },
+    { archivo: "fotos/mesa-luces.jpeg", texto: "Tú y yo 💝", enfoque: "50% 40%" },
+    { archivo: "fotos/espejo-blanco-2.jpeg", texto: "Siempre nosotros", enfoque: "38% 72%", zoom: 1.45 },
+    { archivo: "fotos/tienda.jpeg", texto: "Mi lugar favorito: a tu lado", enfoque: "50% 40%" },
+    { archivo: "fotos/gafas.jpeg", texto: "Contigo hasta las fotos salen mejor 😎", enfoque: "50% 35%" },
+    { archivo: "fotos/espejo-rosado.jpeg", texto: "Mi princesa", enfoque: "50% 35%" },
+  ],
+
+  // ---------- Dedicatoria (foto recortada, estilo vintage) ----------
+  // "recorte" es la foto sin fondo (PNG). Si no existe, se usa "foto".
+  dedicatoria: {
+    texto:
+      "A veces me pregunto qué hice para tener la suerte de encontrarte. Gracias por las risas, por los planes de salchipapa y por hacer que cada día sea especial. Eres mi lugar favorito en el mundo.",
+    titulo: "¡Feliz cumpleaños, mi amor!",
+    recorte: "fotos/espejo-blanco-1-recorte.png",
+    foto: "fotos/espejo-blanco-1.jpeg",
+  },
+
+  // ---------- Videos ----------
+  // "sonido: false" deja sonando la música de fondo mientras se ve ese video.
+  notaVideos: "nuestras tonterías favoritas 🎬",
+  videos: [
+    { archivo: "videos/perrito.mp4", poster: "videos/perrito.jpg", texto: "Con filtro de perrito 🐶" },
+    { archivo: "videos/retro.mp4", poster: "videos/retro.jpg", texto: "Modo retro 📼", sonido: false },
+    { archivo: "videos/gafas.mp4", poster: "videos/gafas.jpg", texto: "Tú, yo y las gafas 😎" },
   ],
 
   // ---------- Lo que me encanta de ti (8 estrellas) ----------
+  // "foto" es opcional: sale pegada en la tarjeta cuando ella toca esa estrella.
   razones: [
-    { titulo: "Tus ojos", texto: "Me puedo quedar mirándolos todo el día. Y lo hago, no creas que no te das cuenta." },
-    { titulo: "Tu pelo", texto: "Me encanta. Suelto, recogido, despeinado… como sea." },
-    { titulo: "Tu carita", texto: "Esa carita tuya me arregla cualquier día malo en dos segundos." },
+    { titulo: "Tus ojos", texto: "Me puedo quedar mirándolos todo el día. Y lo hago, no creas que no te das cuenta.", foto: "fotos/ella-ojos.jpeg", enfoque: "55% 35%" },
+    { titulo: "Tu pelo", texto: "Me encanta. Suelto, recogido, despeinado… como sea.", foto: "fotos/ella-pelo.jpeg", enfoque: "50% 40%" },
+    { titulo: "Tu carita", texto: "Esa carita tuya me arregla cualquier día malo en dos segundos.", foto: "fotos/ella-carita.jpeg", enfoque: "45% 40%" },
     { titulo: "Tu forma de ser", texto: "Eres tú, sin copiarle a nadie. Y esa es justo la persona de la que me enamoré." },
     { titulo: "Lo tierna que eres", texto: "Tienes una ternura que me desarma. Contigo hasta yo me vuelvo cursi (la prueba es esta página)." },
     { titulo: "Lo detallista", texto: "Siempre tienes un detalle, una sorpresa, algo pensado para mí. Hoy me tocaba a mí." },
