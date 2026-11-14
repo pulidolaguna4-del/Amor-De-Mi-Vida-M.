@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#4a0b16">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Feliz cumpleaños, María Fernanda 💝🌷</title>
+  <meta name="description" content="Un scrapbook lleno de tulipanes, fotos y amor, hecho solo para ti.">
+  <meta property="og:title" content="Feliz cumpleaños, María Fernanda 💝🌷">
+  <meta property="og:description" content="Un scrapbook lleno de tulipanes, fotos y amor, hecho solo para ti.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌷</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Parisienne&family=Quicksand:wght@400;500;600;700&family=Special+Elite&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body class="cerrado">
+
+  <div class="fondo" aria-hidden="true"></div>
+  <canvas id="ambiente" aria-hidden="true"></canvas>
+  <div class="progreso" aria-hidden="true"><span id="barraProgreso"></span></div>
+
+  <!-- ===================== PORTADA ===================== -->
+  <div class="portada" id="portada">
+    <div class="portada-contenido">
+      <div class="tarjeta">
+        <span class="cinta" aria-hidden="true"></span>
+        <div class="ramo" id="ramo" aria-hidden="true"></div>
+        <p class="portada-para">Para</p>
+        <p class="portada-nombre">María Fernanda</p>
+        <p class="portada-de">de tu cielo, con todo el amor del mundo</p>
+        <button class="boton" id="abrir" type="button">Abrir mi regalo <span aria-hidden="true">💝</span></button>
+      </div>
+      <p class="portada-nota">Sube el volumen 🔊</p>
+      <p class="portada-aviso">Advertencia: cursilería en dosis altas.<br>Si te da pena, igual te aguantas 😌</p>
+    </div>
+  </div>
+
+  <main id="contenido">
+
+    <!-- ===================== INICIO ===================== -->
+    <header class="inicio" id="inicio">
+      <span class="perlas" aria-hidden="true"></span>
+      <p class="garabato" aria-hidden="true">te amo, te amo y te amo<br>eres mi lugar favorito<br>tú y yo, para siempre<br>mi flaquita bonita</p>
+
+      <div class="escena">
+        <div class="tira" id="tira" aria-hidden="true"></div>
+
+        <div class="nota-sombra">
+          <div class="nota">
+            <p class="inicio-fecha">15 · 11 · 2026</p>
+            <p class="inicio-feliz">Feliz cumpleaños,</p>
+            <h1 class="inicio-nombre">
+              <span class="linea"><span>María</span></span>
+              <span class="linea"><span>Fernanda</span></span>
+            </h1>
+            <p class="inicio-apodo"><span id="apodo">mi flaquita 🌷</span></p>
+          </div>
+        </div>
+
+        <span class="cinta cinta-nota" aria-hidden="true"></span>
+        <svg class="sticker-corazon" viewBox="0 0 64 58" aria-hidden="true">
+          <defs>
+            <linearGradient id="gCorazon" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#ffc2cf"/><stop offset="1" stop-color="#f27c97"/>
+            </linearGradient>
+          </defs>
+          <path d="M32 55 C 12 41, 3 30, 3 18 C 3 9, 10 3, 18 3 C 24 3, 29 7, 32 12 C 35 7, 40 3, 46 3 C 54 3, 61 9, 61 18 C 61 30, 52 41, 32 55Z" />
+        </svg>
+        <p class="sello"><b>17</b><span>años iluminando mi vida</span></p>
+        <svg class="destello d1" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1 C 12.8 8, 16 11.2, 23 12 C 16 12.8, 12.8 16, 12 23 C 11.2 16, 8 12.8, 1 12 C 8 11.2, 11.2 8, 12 1Z"/></svg>
+        <svg class="destello d2" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1 C 12.8 8, 16 11.2, 23 12 C 16 12.8, 12.8 16, 12 23 C 11.2 16, 8 12.8, 1 12 C 8 11.2, 11.2 8, 12 1Z"/></svg>
+      </div>
+
+      <a class="desliza" href="#contador">desliza<span aria-hidden="true">↓</span></a>
+
+      <div class="suelo" aria-hidden="true">
+        <div class="pradera" id="pradera"></div>
+        <div class="colina"></div>
+        <svg class="gato" viewBox="0 0 84 92">
+          <path class="gato-cola" d="M58 82 C 78 84, 84 64, 74 54" />
+          <path d="M40 30 C 21 31, 13 56, 15 80 C 15 88, 65 88, 65 80 C 67 56, 59 31, 40 30Z" />
+          <circle cx="40" cy="24" r="14.5" />
+          <path d="M27.5 17 L26 1.5 L38.5 11Z" />
+          <path d="M52.5 17 L54 1.5 L41.5 11Z" />
+        </svg>
+      </div>
+    </header>
+
+    <!-- ===================== CONTADOR ===================== -->
+    <section class="seccion" id="contador">
+      <p class="etiqueta revelar">desde el 29 de junio de 2024</p>
+      <h2 class="titulo revelar">Llevamos <em>juntos</em></h2>
+
+      <div class="reloj revelar">
+        <span class="cinta" aria-hidden="true"></span>
+        <div class="reloj-fila grande">
+          <div class="caja"><b id="cAnios">0</b><span id="tAnios">años</span></div>
+          <div class="caja"><b id="cMeses">0</b><span id="tMeses">meses</span></div>
+          <div class="caja"><b id="cDias">0</b><span id="tDias">días</span></div>
+        </div>
+        <div class="reloj-fila chica">
+          <div class="caja"><b id="cHoras">00</b><span>horas</span></div>
+          <div class="caja"><b id="cMin">00</b><span>minutos</span></div>
+          <div class="caja"><b id="cSeg">00</b><span>segundos</span></div>
+        </div>
+      </div>
+
+      <p class="bajada revelar">
+        Son <b id="cTotal">0</b> días eligiéndote, y contando cada segundo.<br>
+        Y <b id="cConocerte">0</b> días desde aquella fiesta de 15 en la que te vi por primera vez.
+      </p>
+    </section>
+
+    <div class="huellas revelar" aria-hidden="true">🐾 🌷 🐾</div>
+
+    <!-- ===================== HISTORIA ===================== -->
+    <section class="seccion" id="historia">
+      <p class="etiqueta revelar">nuestra historia</p>
+      <h2 class="titulo revelar">De una fiesta de 15 <em>hasta hoy</em></h2>
+      <div class="linea-tiempo" id="lineaTiempo">
+        <span class="linea-relleno" aria-hidden="true"></span>
+        <ol id="hitos"></ol>
+      </div>
+    </section>
+
+    <!-- ===================== FOTOS (collage en blanco y negro) ===================== -->
+    <section class="banda-fotos" id="fotos">
+      <div class="banda-interior">
+        <p class="etiqueta revelar">nuestros momentos</p>
+        <h2 class="titulo revelar">Mis fotos <em>favoritas</em> contigo</h2>
+        <p class="bajada revelar">Toca una foto para verla en grande… y a color 🤍</p>
+        <div class="collage" id="collage"></div>
+        <div class="collage-extra" id="collageExtra"></div>
+      </div>
+    </section>
+
+    <!-- ===================== RAZONES ===================== -->
+    <section class="seccion" id="razones">
+      <p class="etiqueta revelar">lo que me encanta de ti</p>
+      <h2 class="titulo revelar">Una constelación <em>con tu nombre</em></h2>
+      <p class="bajada revelar">Toca cada estrella ✨ Cada una guarda algo que amo de ti.</p>
+
+      <div class="constelacion revelar" id="constelacion">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <g id="constelacionLineas"></g>
+          <path id="constelacionCorazon" pathLength="1" />
+        </svg>
+      </div>
+
+      <div class="razon revelar" id="razon" aria-live="polite">
+        <p class="razon-num" id="razonNum">0 / 8</p>
+        <h3 class="razon-titulo" id="razonTitulo">¿Lista?</h3>
+        <p class="razon-texto" id="razonTexto">Toca una estrella para empezar.</p>
+      </div>
+    </section>
+
+    <!-- ===================== COSAS NUESTRAS ===================== -->
+    <section class="seccion" id="nuestras">
+      <p class="etiqueta revelar">tú, yo y nuestras cosas</p>
+      <h2 class="titulo revelar">Cosas muy <em>de nosotros</em></h2>
+      <div class="rejilla" id="rejilla"></div>
+    </section>
+
+    <div class="huellas revelar" aria-hidden="true">🐾 💝 🐾</div>
+
+    <!-- ===================== CARTA ===================== -->
+    <section class="seccion" id="carta">
+      <p class="etiqueta revelar">una carta</p>
+      <h2 class="titulo revelar">Léela <em>despacito</em></h2>
+      <p class="bajada revelar" id="cartaPista">Toca el sobre para abrirlo.</p>
+
+      <button class="sobre revelar" id="sobre" type="button" aria-expanded="false" aria-controls="cartaTexto" aria-label="Abrir la carta">
+        <span class="sobre-atras"></span>
+        <span class="sobre-hoja">Para ti 🌷</span>
+        <span class="sobre-frente"></span>
+        <span class="sobre-solapa"></span>
+        <span class="sobre-sello">💝</span>
+      </button>
+
+      <article class="papel" id="cartaTexto" hidden></article>
+    </section>
+
+    <!-- ===================== JARDÍN FINAL ===================== -->
+    <section class="jardin" id="jardin">
+      <div class="jardin-texto">
+        <p class="etiqueta revelar">una última sorpresa</p>
+        <h2 class="titulo revelar">Un jardín <em>para ti</em></h2>
+
+        <div id="jardinJuego">
+          <p class="bajada revelar">Toca la pantalla y siembra un tulipán 🌷<br>Hazlo 17 veces: uno por cada año tuyo.</p>
+          <p class="jardin-cuenta revelar"><b id="jardinNum">0</b><span>/ 17</span></p>
+        </div>
+
+        <div class="final" id="final" hidden>
+          <span class="cinta" aria-hidden="true"></span>
+          <p class="final-arriba">17 tulipanes por tus 17 años</p>
+          <p class="final-grande">Feliz cumpleaños,<br><em>mi flaquita</em></p>
+          <p class="final-texto">Te amo hoy, mañana y en todos los cumpleaños que vienen.</p>
+          <p class="final-firma">Tu cielo 💝🌷</p>
+          <p class="final-nota">Puedes seguir sembrando, el jardín es tuyo.</p>
+        </div>
+      </div>
+
+      <div class="suelo" aria-hidden="true">
+        <div class="pradera" id="jardinPradera"></div>
+        <div class="colina"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Música -->
+  <button class="musica" id="musica" type="button" aria-label="Pausar la música" hidden>
+    <span class="barras" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+  </button>
+  <div class="cancion" id="cancion" role="status"></div>
+
+  <!-- Visor de fotos -->
+  <div class="visor" id="visor" hidden role="dialog" aria-modal="true" aria-label="Foto en grande">
+    <button class="visor-cerrar" id="visorCerrar" type="button" aria-label="Cerrar">×</button>
+    <button class="visor-nav ant" id="visorAnt" type="button" aria-label="Foto anterior">‹</button>
+    <figure>
+      <img id="visorImg" alt="">
+      <figcaption id="visorTexto"></figcaption>
+    </figure>
+    <button class="visor-nav sig" id="visorSig" type="button" aria-label="Foto siguiente">›</button>
+  </div>
+
+  <script src="js/contenido.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
