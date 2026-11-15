@@ -802,14 +802,10 @@
         return;
       }
       const i = lista.indexOf(v);
-      // Los 3 primeros tienen su lugar fijo; los demás según su forma
-      const forma = i < 3 ? "v" + (i + 1) : "v-" + (v.forma || "alto");
-      const figura = crear("figure", "video-marco revelar " + forma);
+      const figura = crear("figure", "video-marco revelar v-" + (v.forma || "alto"));
       figura.style.setProperty("--espera", ((i % 2) * 0.12).toFixed(2) + "s");
-      if (i >= 3) {
-        figura.style.setProperty("--giro", GIROS[i % GIROS.length] + "deg");
-        figura.style.setProperty("--cinta", CINTAS[i % CINTAS.length]);
-      }
+      figura.style.setProperty("--giro", GIROS[i % GIROS.length] + "deg");
+      figura.style.setProperty("--cinta", CINTAS[i % CINTAS.length]);
       const pantalla = crear("button", "video-pantalla");
       pantalla.type = "button";
       pantalla.setAttribute("aria-label", "Ver video: " + (v.texto || "video " + (i + 1)));
@@ -834,11 +830,6 @@
       caja.appendChild(figura);
       marcos.push({ figura, video });
     });
-
-    if (C.notaVideos && lista.length >= 3) {
-      const nota = crear("p", "nota-videos revelar", C.notaVideos);
-      caja.insertBefore(nota, marcos[2].figura);
-    }
 
     // Solo se mueven los que están en pantalla (ahorra batería y datos)
     if (calmado) return;
@@ -965,21 +956,6 @@
         ambiente.lluvia(30, 2500);
       }
     }
-  })();
-
-  /* ==========================================================
-     Cosas muy de nosotros
-     ========================================================== */
-  (() => {
-    const rejilla = $("#rejilla");
-    C.nuestras.forEach((n, i) => {
-      const tarjeta = crear("div", "cosa revelar");
-      tarjeta.style.setProperty("--espera", (i % 2) * 0.12 + "s");
-      const icono = crear("span", "cosa-icono", n.icono);
-      icono.setAttribute("aria-hidden", "true");
-      tarjeta.append(icono, crear("h3", "cosa-titulo", n.titulo), crear("p", "cosa-texto", n.texto));
-      rejilla.appendChild(tarjeta);
-    });
   })();
 
   /* ==========================================================

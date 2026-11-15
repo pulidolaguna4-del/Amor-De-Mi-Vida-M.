@@ -29,7 +29,7 @@ window.CONTENIDO = {
       fecha: "21 de abril de 2024",
       titulo: "Una fiesta de 15",
       texto:
-        "Fui a una fiesta de 15 y el que salió con regalo fui yo: esa noche te conocí. Y ni siquiera era mi cumpleaños.",
+        "Fui a una fiesta de 15 y nunca creí que esa noche iba a conocer al amor de mi vida.",
       foto: "fotos/01-la-foto-con-la-que-empezo-todo.jpeg",
       pie: "La foto con la que empezó todo",
       enfoque: "50% 35%",
@@ -37,9 +37,9 @@ window.CONTENIDO = {
     {
       icono: "💝",
       fecha: "29 de junio de 2024",
-      titulo: "Oficialmente novios",
+      titulo: "Nuestras primeras fotos",
       texto:
-        "El día que dejaste de ser «la niña que me encanta» para ser mi novia. La mejor decisión que hemos tomado los dos.",
+        "Con ilusión, con nervios, cuando todavía nos dábamos besos tímidos.",
       foto: "fotos/02-la-segunda-foto-de-nosotros.jpeg",
       pie: "Nuestra segunda foto 🐶",
       enfoque: "50% 30%",
@@ -49,7 +49,7 @@ window.CONTENIDO = {
       fecha: "El colegio",
       titulo: "Nuestra época más linda",
       texto:
-        "Los descansos juntos, las izadas de bandera que solo aguantaba porque estabas a mi lado, y salir juntos al final del día. Todo el colegio era más bonito contigo.",
+        "Haber vivido contigo los descansos, las izadas de bandera y las salidas del colegio fue lo más bonito que me pudo pasar, y lo volvería a vivir. Todo el colegio a tu lado fue muy bonito.",
       foto: "fotos/colegio.jpeg",
       pie: "La más linda del colegio",
       enfoque: "50% 62%",
@@ -58,16 +58,16 @@ window.CONTENIDO = {
     {
       icono: "🎓",
       fecha: "Después del grado",
-      titulo: "Me gradué del colegio, no de ti",
+      titulo: "Me gradué del colegio",
       texto:
-        "Ya no tenía que volver, pero seguí yendo: a llevarte y a recogerte. Era, de lejos, el mejor trayecto del día.",
+        "Ya no tenía que volver, pero seguí yendo a llevarte y a recogerte. Me quedaba lejos, pero por tenerte ahí valía la pena.",
     },
     {
       icono: "🍟",
       fecha: "Muchas, muchas veces",
-      titulo: "Salchipapa con choriperro",
+      titulo: "Nuestra comida favorita",
       texto:
-        "Nuestro plan romántico oficial. Y de postre helado o ensalada de frutas, para poder decir que comemos sano.",
+        "Nuestra comida de siempre, la del desvare: el choriperro y la salchipapa que tanto nos encantan.",
     },
     {
       icono: "🕷️",
@@ -85,7 +85,7 @@ window.CONTENIDO = {
       fecha: "Noviembre de 2026",
       titulo: "Girardot",
       texto:
-        "Nuestro viaje: comer juntos, bailar juntos y ver un matrimonio por primera vez, los dos. Fue hermoso… y me dejó pensando cosas.",
+        "Nuestro primer viaje ha sido lo más hermoso que hemos vivido. Compartimos momentos muy íntimos y muy lindos: dormir juntos, arruncharnos, comer, bailar… Haber vivido todo eso a tu lado fue lo que más me encantó. No sabes las ganas que tengo de repetir un paseo así contigo.",
       foto: "fotos/piscina.jpeg",
       pie: "Girardot, 2026 ☀️",
       enfoque: "50% 35%",
@@ -132,24 +132,25 @@ window.CONTENIDO = {
   // ---------- Videos ----------
   // "sonido: false" deja sonando la música de fondo mientras se ve ese video
   // (se usa en los que no tienen audio).
-  // Los 3 primeros tienen su lugar fijo. Del 4.º en adelante, "forma" dice cómo se ve:
-  //   "alto"  = video vertical, ocupa media fila (van de a dos)
-  //   "ancho" = video horizontal, ocupa la fila entera
-  //   "foto"  = horizontal más cuadrado (4:3), fila entera
+  // "forma" dice cómo se ve cada uno:
+  //   "alto"     = video vertical, media fila (van de a dos)
+  //   "cuadrado" = video cuadrado, media fila (van de a dos)
+  //   "ancho"    = video horizontal, fila entera
+  //   "foto"     = horizontal más cuadrado (4:3), fila entera
+  // Para que no queden huecos, pon los de media fila en parejas.
   // { nota: "..." } pone un papelito con ese texto en ese lugar.
-  notaVideos: "nuestras tonterías favoritas 🎬",
   videos: [
-    { archivo: "videos/perrito.mp4", poster: "videos/perrito.jpg", texto: "Con filtro de perrito 🐶" },
-    { archivo: "videos/retro.mp4", poster: "videos/retro.jpg", texto: "Modo retro 📼", sonido: false },
-    { archivo: "videos/gafas.mp4", poster: "videos/gafas.jpg", texto: "Tú, yo y las gafas 😎" },
-    { archivo: "videos/globos.mp4", poster: "videos/globos.jpg", texto: "La sorpresa de los globos 🎈", forma: "alto" },
-    { archivo: "videos/luces.mp4", poster: "videos/luces.jpg", texto: "Bajo las luces ✨", forma: "alto" },
-    { archivo: "videos/risas.mp4", poster: "videos/risas.jpg", texto: "Riéndonos de todo 😂", forma: "ancho" },
+    { archivo: "videos/perrito.mp4", poster: "videos/perrito.jpg", texto: "Con filtro de perrito 🐶", forma: "alto" },
+    { archivo: "videos/globos.mp4", poster: "videos/globos.jpg", texto: "La sorpresa de tus 16 🎈", forma: "alto" },
+    { archivo: "videos/gafas.mp4", poster: "videos/gafas.jpg", texto: "Tú, yo y las gafas 😎", forma: "ancho" },
+    { archivo: "videos/luces.mp4", poster: "videos/luces.jpg", texto: "Nosotros en un bar ✨", forma: "alto" },
     { archivo: "videos/tus-brazos.mp4", poster: "videos/tus-brazos.jpg", texto: "Directo a tus brazos 🤍", forma: "alto" },
-    { archivo: "videos/perritos-uniforme.mp4", poster: "videos/perritos-uniforme.jpg", texto: "Perritos de uniforme 🐶", forma: "alto" },
-    { archivo: "videos/guino.mp4", poster: "videos/guino.jpg", texto: "Ese guiño 😉", forma: "foto", sonido: false },
+    { archivo: "videos/risas.mp4", poster: "videos/risas.jpg", texto: "Compartiendo con mi amor 💗", forma: "ancho" },
+    { archivo: "videos/perritos-uniforme.mp4", poster: "videos/perritos-uniforme.jpg", texto: "Nosotros compartiendo en unos 15 🎉", forma: "alto" },
+    { archivo: "videos/bocotas.mp4", poster: "videos/bocotas.jpg", texto: "Nuestros videos más lindos y más viejitos", forma: "alto", sonido: false },
+    { archivo: "videos/retro.mp4", poster: "videos/retro.jpg", texto: "Modo retro 📼", forma: "cuadrado", sonido: false },
+    { archivo: "videos/guino.mp4", poster: "videos/guino.jpg", texto: "Esos ojos tan hermosos 😍", forma: "cuadrado", sonido: false },
     { archivo: "videos/sube-y-baja.mp4", poster: "videos/sube-y-baja.jpg", texto: "En el sube y baja 🎢", forma: "alto" },
-    { archivo: "videos/bocotas.mp4", poster: "videos/bocotas.jpg", texto: "Los filtros más feos 😂", forma: "alto", sonido: false },
     { archivo: "videos/tu-perrito.mp4", poster: "videos/tu-perrito.jpg", texto: "Tu perrito favorito 🐶", forma: "alto", sonido: false },
     { nota: "y todos los que nos faltan por grabar 🎥" },
   ],
@@ -157,26 +158,14 @@ window.CONTENIDO = {
   // ---------- Lo que me encanta de ti (8 estrellas) ----------
   // "foto" es opcional: sale pegada en la tarjeta cuando ella toca esa estrella.
   razones: [
-    { titulo: "Tus ojos", texto: "Me puedo quedar mirándolos todo el día. Y lo hago, no creas que no te das cuenta.", foto: "fotos/ella-ojos.jpeg", enfoque: "55% 35%" },
+    { titulo: "Tus ojos", texto: "Me puedo quedar mirándolos todo el día y nunca me voy a cansar.", foto: "fotos/ella-ojos.jpeg", enfoque: "55% 35%" },
     { titulo: "Tu pelo", texto: "Me encanta. Suelto, recogido, despeinado… como sea.", foto: "fotos/ella-pelo.jpeg", enfoque: "50% 40%" },
     { titulo: "Tu carita", texto: "Esa carita tuya me arregla cualquier día malo en dos segundos.", foto: "fotos/ella-carita.jpeg", enfoque: "45% 40%" },
     { titulo: "Tu forma de ser", texto: "Eres tú, sin copiarle a nadie. Y esa es justo la persona de la que me enamoré." },
-    { titulo: "Lo tierna que eres", texto: "Tienes una ternura que me desarma. Contigo hasta yo me vuelvo cursi (la prueba es esta página)." },
+    { titulo: "Lo tierna que eres", texto: "Mi flaca tiene una ternura que me desarma, literal. Contigo me he vuelto muy cursi, y lo voy a seguir siendo si así te gusta, porque por el amor de mi vida lo hago todo." },
     { titulo: "Lo detallista", texto: "Siempre tienes un detalle, una sorpresa, algo pensado para mí. Hoy me tocaba a mí." },
     { titulo: "Lo atenta que eres", texto: "Siempre pendiente de mí, de cómo estoy, de si ya comí. Nadie me cuida como tú." },
-    { titulo: "Que me aguantas", texto: "Con mi humor pesado y todo. Eso ya es amor del bueno, mi vida." },
-  ],
-
-  // ---------- Cosas muy de nosotros ----------
-  nuestras: [
-    { icono: "🌷", titulo: "Tulipanes", texto: "Nuestra flor. Por eso esta página está llena de ellos." },
-    { icono: "🐱", titulo: "Gatos", texto: "A los dos nos derriten. Y tú te pareces a uno cuando te enojas." },
-    { icono: "🕷️", titulo: "Spider-Man", texto: "Mi película favorita… después de verte a ti." },
-    { icono: "🧛‍♀️", titulo: "The Vampire Diaries", texto: "Tú con tus vampiros y yo celoso de un tipo de 170 años." },
-    { icono: "👻", titulo: "Películas de miedo", texto: "Las ves tú. Yo solo estoy ahí para que me abraces." },
-    { icono: "💄", titulo: "Maquillarte", texto: "Te demoras, pero vale la pena. Igual sin maquillaje ya ganaste." },
-    { icono: "🚶‍♀️", titulo: "Caminar y hablar", texto: "Tu hobby es hablar. El mío, escucharte (casi siempre)." },
-    { icono: "🎵", titulo: "Nuestras canciones", texto: "«Risk It All» y «Distancia». Suenan y ya estoy pensando en ti." },
+    { titulo: "Que me aguantas", texto: "Con mi humor pesado y mis bromas no tan chistosas… y aun así te quedas. Así es el amor de mi vida." },
   ],
 
   // ---------- La carta (cada elemento es un párrafo) ----------
