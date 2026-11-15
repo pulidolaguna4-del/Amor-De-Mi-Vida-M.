@@ -172,12 +172,12 @@ window.CONTENIDO = {
   carta: {
     saludo: "Mi flaquita, mi princesa, mi vida:",
     parrafos: [
-      "Hoy cumples 17 años y quería regalarte algo que no se pudiera envolver. Así que te hice un pedacito de cielo lleno de tulipanes, para que lo abras cada vez que quieras acordarte de cuánto te amo.",
-      "Te conocí un 21 de abril en una fiesta de 15 y desde ese día mi vida tiene otro color (morado, rosa y azul, para ser exactos). El colegio fue nuestra época más linda: los descansos contigo, las izadas de bandera, salir juntos. Y cuando me gradué, lo único que no quise dejar de hacer fue ir por ti.",
-      "Me encantan tus ojos, tu pelo, tu carita. Me encanta lo tierna que eres, lo detallista, lo atenta que estás siempre conmigo. Me encanta que una salchipapa contigo sea mejor plan que cualquier restaurante elegante.",
-      "No todo ha sido perfecto, hemos tenido nuestras idas y vueltas. Pero mira dónde estamos: siempre terminamos eligiéndonos. Y yo te volvería a elegir todas las veces.",
+      "Hoy cumples 17 años y quería regalarte algo un poco original. Así que te hice un pedacito de cielo lleno de tulipanes, para que lo abras cada vez que quieras acordarte de cuánto te amo, mi amor.",
+      "Te conocí un 21 de abril en una fiesta de 15. ¿Quién iba a pensar que ese día conocí a mi futura esposa y la madre de mis hijos? Desde ese día mi vida tiene otro color. El colegio fue nuestra época más linda: los descansos contigo, acompañarte a tu casita, salir juntos cuando se podía. Y cuando me gradué, lo único que no quise dejar de hacer fue ir por ti, mi flaquita.",
+      "Me encantan tus ojos, tu pelo, tu carita. Me encanta lo tierna que eres, lo detallista, lo atenta que estás siempre conmigo. Me encanta que una salchipapa contigo sea el mejor plan que pueda haber, porque solo con estar contigo se me arregla el día.",
+      "No todo ha sido perfecto: hemos tenido nuestras idas y vueltas, muchas veces terminamos y dejamos de hablar, pero, mi amor, mira dónde estamos: siempre terminamos eligiéndonos. Y yo te volvería a elegir todas las veces necesarias.",
       "Girardot me dejó pensando. Comer contigo, bailar contigo, ver ese matrimonio a tu lado… quiero muchos más viajes, muchas más primeras veces y muchos más cumpleaños junto a ti.",
-      "Feliz cumpleaños, mi amor. Gracias por existir y por dejarme quererte.",
+      "Feliz cumpleaños, mi amor. Gracias por existir y por dejarme quererte. Eres demasiado para mí, y por eso mismo siempre mejoraré para ser el amor de la vida del amor de mi vida. Te amo, mi cuchurrumi, no te imaginas cuánto. Por favor, nunca cambies ese amor tan lindo que me tienes, y pásala muy bien en tu día especial, mi amor. No podré estar muy presente, pero quiero que al menos con mis detallitos me pienses todo el día 💝",
     ],
     despedida: "Con todo mi corazón,",
     firma: "Tu cielo 💝🌷",
