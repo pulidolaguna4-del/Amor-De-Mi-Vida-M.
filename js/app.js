@@ -724,22 +724,21 @@
      Fotos: collage cálido (estilo "your story" beige)
      ========================================================== */
   (() => {
-    const collage = $("#collage");
+    const primero = $("#collage");
     const extra = $("#collageExtra");
     const CORAZON = '<svg viewBox="0 0 64 58" aria-hidden="true"><path d="M32 55 C 12 41, 3 30, 3 18 C 3 9, 10 3, 18 3 C 24 3, 29 7, 32 12 C 35 7, 40 3, 46 3 C 54 3, 61 9, 61 18 C 61 30, 52 41, 32 55Z"/></svg>';
     const galeria = C.fotos.map((f) => ({ archivo: f.archivo, texto: f.texto }));
+    // Frases, notas y palabras pueden ser un texto o una lista (una por collage)
+    const lista = (v) => [].concat(v ?? []).filter(Boolean);
+    const frases = lista(C.fraseFotos);
+    const notas = lista(C.notaFotos);
+    const palabras = lista(C.teAmo || "te amo");
 
     // Fondo: la primera foto, muy difuminada y lavada en tono arena
     if (C.fotos[0]) $("#collageFondo").style.backgroundImage = `url("${C.fotos[0].archivo}")`;
 
-    // Bloque de texto a máquina
-    const texto = crear("div", "collage-texto revelar");
-    texto.appendChild(crear("p", "", C.fraseFotos || ""));
-    collage.appendChild(texto);
-
-    C.fotos.forEach((foto, i) => {
-      const enCollage = i < 5;
-      const figura = crear("figure", "foto-collage revelar" + (enCollage ? " f" + (i + 1) : ""));
+    function figuraFoto(foto, i, clase, palabra) {
+      const figura = crear("figure", "foto-collage revelar" + (clase ? " " + clase : ""));
       figura.style.setProperty("--espera", ((i % 2) * 0.12).toFixed(2) + "s");
       figura.tabIndex = 0;
       figura.setAttribute("role", "button");
@@ -747,19 +746,40 @@
       const marco = crear("div", "marco-collage");
       ponerFoto(marco, foto.archivo, { alt: foto.texto || "", enfoque: foto.enfoque, zoom: foto.zoom, respaldo: "foto " + (i + 1) });
       figura.appendChild(marco);
-      if (i === 3) figura.appendChild(crear("span", "te-amo", C.teAmo || "te amo"));
+      if (palabra) figura.appendChild(crear("span", "te-amo", palabra));
       const abrir = () => visor.abrir(galeria, i);
       figura.addEventListener("click", abrir);
       figura.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); abrir(); } });
-      (enCollage ? collage : extra).appendChild(figura);
-    });
+      return figura;
+    }
 
-    const pie = crear("div", "collage-pie revelar");
-    if (C.notaFotos) pie.appendChild(crear("p", "", C.notaFotos));
-    const corazon = crear("span", "collage-corazon");
-    corazon.innerHTML = CORAZON;
-    pie.appendChild(corazon);
-    collage.appendChild(pie);
+    // Cada 5 fotos arman un collage; uno sí y otro no va en espejo ("collage-b")
+    const bloques = Math.max(1, Math.floor(C.fotos.length / 5));
+    for (let b = 0; b < bloques; b++) {
+      const collage = b === 0 ? primero : crear("div", "collage");
+      if (b % 2) collage.classList.add("collage-b");
+      if (b > 0) extra.before(collage);
+
+      const texto = crear("div", "collage-texto revelar");
+      texto.appendChild(crear("p", "", frases.length ? frases[b % frases.length] : ""));
+      collage.appendChild(texto);
+
+      const conPalabra = b % 2 ? 0 : 3; // la foto que lleva el "te amo"
+      C.fotos.slice(b * 5, b * 5 + 5).forEach((foto, j) => {
+        const palabra = j === conPalabra && palabras.length ? palabras[b % palabras.length] : "";
+        collage.appendChild(figuraFoto(foto, b * 5 + j, "f" + (j + 1), palabra));
+      });
+
+      const pie = crear("div", "collage-pie revelar");
+      if (notas[b]) pie.appendChild(crear("p", "", notas[b]));
+      const corazon = crear("span", "collage-corazon");
+      corazon.innerHTML = CORAZON;
+      pie.appendChild(corazon);
+      collage.appendChild(pie);
+    }
+
+    // Las que sobran (menos de 5) van debajo, en cuadrícula
+    C.fotos.slice(bloques * 5).forEach((foto, k) => extra.appendChild(figuraFoto(foto, bloques * 5 + k)));
   })();
 
   /* ==========================================================
@@ -767,14 +787,29 @@
      ========================================================== */
   (() => {
     const caja = $("#listaVideos");
-    const lista = C.videos || [];
+    const todos = C.videos || [];
+    const lista = todos.filter((v) => v.archivo);
     if (!lista.length) { $("#videos").hidden = true; return; }
     const galeria = lista.map((v) => ({ ...v, tipo: "video" }));
     const marcos = [];
+    const GIROS = [-1.4, 1.6, -0.9, 1.2];
+    const CINTAS = ["var(--cinta-rosa)", "var(--cinta-puntos)", "var(--cinta-roja)"];
 
-    lista.forEach((v, i) => {
-      const figura = crear("figure", "video-marco revelar " + (i < 3 ? "v" + (i + 1) : "v-extra"));
+    todos.forEach((v) => {
+      // Un elemento con "nota" (sin archivo) es un papelito entre los videos
+      if (!v.archivo) {
+        if (v.nota) caja.appendChild(crear("p", "nota-videos revelar", v.nota));
+        return;
+      }
+      const i = lista.indexOf(v);
+      // Los 3 primeros tienen su lugar fijo; los demás según su forma
+      const forma = i < 3 ? "v" + (i + 1) : "v-" + (v.forma || "alto");
+      const figura = crear("figure", "video-marco revelar " + forma);
       figura.style.setProperty("--espera", ((i % 2) * 0.12).toFixed(2) + "s");
+      if (i >= 3) {
+        figura.style.setProperty("--giro", GIROS[i % GIROS.length] + "deg");
+        figura.style.setProperty("--cinta", CINTAS[i % CINTAS.length]);
+      }
       const pantalla = crear("button", "video-pantalla");
       pantalla.type = "button";
       pantalla.setAttribute("aria-label", "Ver video: " + (v.texto || "video " + (i + 1)));

@@ -626,6 +626,16 @@ body.abierto .gato { animation: aparecer 1s ease 2.6s forwards; }
 .collage-pie p { margin: 0; font-family: var(--f-maquina); font-size: .68rem; line-height: 1.5; color: var(--cafe); }
 .collage-corazon svg { display: block; width: 1.25rem; fill: #fff; filter: drop-shadow(0 2px 3px rgba(60, 40, 25, .35)); }
 
+/* Segunda página del collage: la misma idea, en espejo */
+.collage + .collage { margin-top: 2.8rem; }
+.collage-b .collage-texto { grid-column: 8 / 13; grid-row: 8 / 14; padding: 0 0 0 .2rem; }
+.collage-b .f1 { grid-column: 1 / 8; grid-row: 1 / 14; z-index: auto; }
+.collage-b .f2 { grid-column: 8 / 13; grid-row: 1 / 8; z-index: auto; }
+.collage-b .f3 { grid-column: 1 / 7; grid-row: 14 / 24; margin-left: 0; z-index: 1; }
+.collage-b .f4 { grid-column: 7 / 13; grid-row: 13 / 21; margin-left: -.5rem; z-index: 2; }
+.collage-b .f5 { grid-column: 7 / 13; grid-row: 21 / 27; z-index: auto; }
+.collage-b .collage-pie { grid-column: 1 / 7; grid-row: 24 / 27; }
+
 .collage-extra { display: grid; grid-template-columns: repeat(2, 1fr); gap: .8rem; margin-top: 1.4rem; }
 .collage-extra:empty { display: none; }
 .collage-extra .foto-collage { aspect-ratio: 4 / 5; }
@@ -646,7 +656,7 @@ body.abierto .gato { animation: aparecer 1s ease 2.6s forwards; }
 }
 .video-marco::before {
   content: ""; position: absolute; z-index: 3; top: -.65rem; left: 50%; width: 4.2rem; height: 1.25rem;
-  background: var(--cinta-rosa);
+  background: var(--cinta, var(--cinta-rosa));
   -webkit-clip-path: var(--zigzag); clip-path: var(--zigzag);
   transform: translateX(-50%) rotate(-4deg);
 }
@@ -665,8 +675,11 @@ body.abierto .gato { animation: aparecer 1s ease 2.6s forwards; }
 .v3 { grid-column: 1 / -1; --giro: -.8deg; }
 .v3 .video-pantalla { aspect-ratio: 16 / 9; }
 .v3::before { background: var(--cinta-roja); }
-.v-extra { grid-column: 1 / -1; }
-.v-extra .video-pantalla { aspect-ratio: 16 / 9; }
+/* Del cuarto en adelante: "alto" ocupa media fila, "ancho" y "foto" la fila entera */
+.v-alto .video-pantalla { aspect-ratio: 9 / 16; }
+.v-ancho, .v-foto { grid-column: 1 / -1; }
+.v-ancho .video-pantalla { aspect-ratio: 16 / 9; }
+.v-foto .video-pantalla { aspect-ratio: 4 / 3; }
 .video-marco figcaption {
   min-height: 2.6rem; padding: .35rem .2rem .5rem; text-align: center;
   font-family: var(--f-mano); font-size: 1.3rem; line-height: 1.1; color: var(--tinta);

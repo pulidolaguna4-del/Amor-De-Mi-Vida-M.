@@ -93,18 +93,30 @@ window.CONTENIDO = {
   ],
 
   // ---------- Collage de fotos ----------
-  // Las 5 primeras arman el collage (la 4.ª lleva el "te amo").
-  // Si agregas más, aparecen debajo. "texto" sale cuando ella la abre en grande.
+  // Cada 5 fotos arman un collage; el segundo sale en espejo, y así.
+  // Si sobran fotos (menos de 5), aparecen debajo en cuadrícula.
+  // "fraseFotos", "notaFotos" y "teAmo" llevan un texto por collage, en orden.
+  // "texto" sale cuando ella abre la foto en grande.
   // Ojo: en internet los nombres distinguen mayúsculas ("Foto.JPG" no es "foto.jpg").
-  fraseFotos: "Cada día a tu lado es una aventura llena de risas, amor y momentos que no quiero olvidar.",
-  notaFotos: "15.11.2026 · feliz cumple, mi amor",
-  teAmo: "te amo",
+  fraseFotos: [
+    "Cada día a tu lado es una aventura llena de risas, amor y momentos que no quiero olvidar.",
+    "Contigo los días normales se vuelven mis favoritos. Y los especiales, inolvidables.",
+  ],
+  notaFotos: ["15.11.2026 · feliz cumple, mi amor", "y todos los que nos faltan"],
+  teAmo: ["te amo", "siempre tú"],
   fotos: [
+    // Collage 1
     { archivo: "fotos/mesa-luces.jpeg", texto: "Tú y yo 💝", enfoque: "50% 40%" },
     { archivo: "fotos/espejo-blanco-2.jpeg", texto: "Siempre nosotros", enfoque: "38% 72%", zoom: 1.45 },
     { archivo: "fotos/tienda.jpeg", texto: "Mi lugar favorito: a tu lado", enfoque: "50% 40%" },
     { archivo: "fotos/gafas.jpeg", texto: "Contigo hasta las fotos salen mejor 😎", enfoque: "50% 35%" },
     { archivo: "fotos/espejo-rosado.jpeg", texto: "Mi princesa", enfoque: "50% 35%" },
+    // Collage 2 (la 1.ª lleva el "siempre tú")
+    { archivo: "fotos/quince-baile.jpeg", texto: "Bailando contigo 💙", enfoque: "55% 55%" },
+    { archivo: "fotos/osos.jpeg", texto: "Un corazón de ositos 🐻💗", enfoque: "50% 55%" },
+    { archivo: "fotos/espejo-saco.jpeg", texto: "Tú, yo y el espejo 🤍", enfoque: "52% 30%", zoom: 1.3 },
+    { archivo: "fotos/espejo-bn.jpeg", texto: "Abrazados, como siempre 🖤", enfoque: "50% 45%" },
+    { archivo: "fotos/ella-bn.jpeg", texto: "La más linda, hasta haciendo caras 😛", enfoque: "50% 25%" },
   ],
 
   // ---------- Dedicatoria (foto recortada, estilo vintage) ----------
@@ -118,12 +130,28 @@ window.CONTENIDO = {
   },
 
   // ---------- Videos ----------
-  // "sonido: false" deja sonando la música de fondo mientras se ve ese video.
+  // "sonido: false" deja sonando la música de fondo mientras se ve ese video
+  // (se usa en los que no tienen audio).
+  // Los 3 primeros tienen su lugar fijo. Del 4.º en adelante, "forma" dice cómo se ve:
+  //   "alto"  = video vertical, ocupa media fila (van de a dos)
+  //   "ancho" = video horizontal, ocupa la fila entera
+  //   "foto"  = horizontal más cuadrado (4:3), fila entera
+  // { nota: "..." } pone un papelito con ese texto en ese lugar.
   notaVideos: "nuestras tonterías favoritas 🎬",
   videos: [
     { archivo: "videos/perrito.mp4", poster: "videos/perrito.jpg", texto: "Con filtro de perrito 🐶" },
     { archivo: "videos/retro.mp4", poster: "videos/retro.jpg", texto: "Modo retro 📼", sonido: false },
     { archivo: "videos/gafas.mp4", poster: "videos/gafas.jpg", texto: "Tú, yo y las gafas 😎" },
+    { archivo: "videos/globos.mp4", poster: "videos/globos.jpg", texto: "La sorpresa de los globos 🎈", forma: "alto" },
+    { archivo: "videos/luces.mp4", poster: "videos/luces.jpg", texto: "Bajo las luces ✨", forma: "alto" },
+    { archivo: "videos/risas.mp4", poster: "videos/risas.jpg", texto: "Riéndonos de todo 😂", forma: "ancho" },
+    { archivo: "videos/tus-brazos.mp4", poster: "videos/tus-brazos.jpg", texto: "Directo a tus brazos 🤍", forma: "alto" },
+    { archivo: "videos/perritos-uniforme.mp4", poster: "videos/perritos-uniforme.jpg", texto: "Perritos de uniforme 🐶", forma: "alto" },
+    { archivo: "videos/guino.mp4", poster: "videos/guino.jpg", texto: "Ese guiño 😉", forma: "foto", sonido: false },
+    { archivo: "videos/sube-y-baja.mp4", poster: "videos/sube-y-baja.jpg", texto: "En el sube y baja 🎢", forma: "alto" },
+    { archivo: "videos/bocotas.mp4", poster: "videos/bocotas.jpg", texto: "Los filtros más feos 😂", forma: "alto", sonido: false },
+    { archivo: "videos/tu-perrito.mp4", poster: "videos/tu-perrito.jpg", texto: "Tu perrito favorito 🐶", forma: "alto", sonido: false },
+    { nota: "y todos los que nos faltan por grabar 🎥" },
   ],
 
   // ---------- Lo que me encanta de ti (8 estrellas) ----------
